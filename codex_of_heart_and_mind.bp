@@ -1,0 +1,416 @@
+
+template RhetoricBuff extends BlueprintBuff {
+    Description:
+    "The Law of Flowing Rhetoric forbids a truenamer from having two"
+    "instances of a particular recitation in effect at one time. In other"
+    "words, if the truenamer recites alter blade, which has a duration of 5"
+    "rounds, he cannot recite alter blade again until those 5 rounds have"
+    "elapsed. If a recitation is negated by a saving throw, counterspelled,"
+    "or dispelled by any means, the truenamer still cannot attempt to recite"
+    "the recitation again until a period of time equal to the recitation’s"
+    "duration has elapsed between attempts. If a recitation is not"
+    "successfully recited, the Law of Flowing Rhetoric is not triggered."
+
+    Icon: "icons/talk.png"
+}
+
+blueprint CodexBolsteringChant extends BlueprintAbility {
+    DisplayName: "Bolstering Chant"
+    Description: "Subject gets a stacking DR 2/-"
+
+    insert CodexStandardAbility
+    insert CodexAllyOnly
+
+    feature requires class Truenamer 1
+
+    Icon: "icons/sing.png"
+
+    derive BlueprintBuff Boon {
+        DisplayName: "Bolstering Chant"
+        Description: "a stacking DR 2/-"
+
+        Stacking: Replace
+        Icon: "icons/sing.png"
+        IsClassFeature: true
+
+        add AddDamageResistancePhysical {
+            IsStackable: true
+            Value: 2
+        }
+    }
+
+    run RecitationCheck {
+        LawOfCroakingFailure: LawOfCroakingFailureBuff
+        LawOfFiniteMalleability: LawOfFiniteMalleability
+
+        OnAlly: [ContextActionApplyBuff {
+            Buff: CodexBolsteringChant_Boon
+            DurationSeconds: 30
+            UseDurationSeconds: true
+        }]
+    }
+}
+
+blueprint CodexAttraction extends BlueprintAbility {
+    DisplayName: "Attraction"
+    Description: 
+    "Normal: Your recitation defines the subject in three dimensional space as a"
+    "function of its distance to you. In this instance, you claim that the"
+    "subject is closer than it actually is.\n\n"
+
+    "Your target is jerked toward you. The subject moves 10 feet toward you in a"
+    "straight line drawn from the reciter to the subject. This movement provokes"
+    "attacks of opportunity, but the subject gets a +4 dodge bonus to AC against"
+    "attacks of opportunity made during this movement. If the subject would"
+    "collide with a solid obstruction, another creature that is one size category"
+    "smaller than it or larger, or the reciter, then its movement stops"
+    "immediately in a square adjacent to that which stopped it."
+
+    "Reverse: The much more popular reverse variant of this recitation defines"
+    "the subject as being further away from you than it actually is."
+
+    "Though this effect is instantaneous, once this recitation is recited, it"
+    "cannot be recited again for 5 rounds in accordance with the Law of Flowing"
+    "Rhetoric."
+ 
+    insert CodexStandardAbility
+    insert CodexEnemyOnly
+
+    feature requires class Truenamer 1
+
+    derive BlueprintBuff Rhetoric {
+        DisplayName: "The Law of Flowing Rhetoric (Attraction)"
+        insert RhetoricBuff
+    }
+
+    add AbilityCasterHasNoFacts {
+        Facts: CodexAttraction_Rhetoric
+    }
+
+    run RecitationCheck {
+        LawOfCroakingFailure: LawOfCroakingFailureBuff
+        LawOfFiniteMalleability: LawOfFiniteMalleability
+        LawOfFlowingRhetoric: CodexAttraction_Rhetoric
+
+        OnEnemy: [ContextActionPull {
+            Distance: 10
+            ProvokeAttackOfOpportunity: true
+        }]
+    }
+}
+blueprint CodexAttractionReverse extends BlueprintAbility {
+    DisplayName: "Attraction"
+    Description: 
+    "Reverse: The much more popular reverse variant of this recitation defines"
+    "the subject as being further away from you than it actually is."
+
+    "Your target is thrust away from you. The subject moves 10 feet away from you"
+    "in a straight line drawn from the reciter to the subject. This movement"
+    "provokes attacks of opportunity, but the subject gets a +4 dodge bonus to AC"
+    "against attacks of opportunity made during this movement. If the subject"
+    "would collide with a solid obstruction, another creature that is one size"
+    "category smaller than it or larger, or the reciter, then its movement stops"
+    "immediately in a square adjacent to that which stopped it.\n\n"
+
+    "Though this effect is instantaneous, once this recitation is recited, it"
+    "cannot be recited again for 5 rounds in accordance with the Law of Flowing"
+    "Rhetoric."
+ 
+    insert CodexStandardAbility
+    insert CodexEnemyOnly
+
+    feature requires class Truenamer 1
+
+    add AbilityCasterHasNoFacts {
+        Facts: CodexAttraction_Rhetoric
+    }
+
+    run RecitationCheck {
+        LawOfCroakingFailure: LawOfCroakingFailureBuff
+        LawOfFiniteMalleability: LawOfFiniteMalleability
+        LawOfFlowingRhetoric: CodexAttraction_Rhetoric
+
+        OnEnemy: [ContextActionPush {
+            Distance: 10
+            ProvokeAttackOfOpportunity: true
+        }]
+    }
+}
+
+
+blueprint CodexGraphicDescription extends BlueprintAbility {
+    DisplayName: "Graphic Description"
+    Description: "Your recitation is a long list of things that make organics feel nauseous."
+
+    Icon: "icons/graphic_desc.png"
+
+    insert CodexStandardAbility
+    insert CodexReversible
+
+    feature requires class Truenamer 1
+
+    derive BlueprintBuff Boon {
+        DisplayName: "Graphic Description (Boon)"
+        Description: "Graphic Description"
+
+        Stacking: Replace
+        Icon: "icons/graphic_desc_boon.png"
+        IsClassFeature: true
+
+        add AddStatBonus {
+            Descriptor: Alchemical
+            Stat: SaveFortitude
+            Value: 2
+        }
+    }
+
+    derive BlueprintBuff Sick {
+        DisplayName: "Graphic Description"
+        Description: "Graphic Description"
+
+        Stacking: Replace
+        Icon: "icons/graphic_desc.png"
+        IsClassFeature: true
+
+        add AddFacts {
+            Facts: BlueprintBuff-Sickened
+        }
+
+        add AddFactContextActions {
+            NewRound: [ContextActionSavingThrow {
+                Type: Will
+                Actions: [ContextActionConditionalSaved {
+                    Succeed: [ContextActionRemoveSelf {}]
+                    Failed: []
+                }]
+            }]
+        }
+    }
+
+    run RecitationCheck {
+        LawOfCroakingFailure: LawOfCroakingFailureBuff
+        LawOfFiniteMalleability: LawOfFiniteMalleability
+
+        OnEnemy: [ContextActionSavingThrow {
+            Type: Will
+            Actions: [ContextActionConditionalSaved {
+                Failed: [ContextActionApplyBuff {
+                    Buff: CodexGraphicDescription_Sick
+                    DurationSeconds: 30
+                    UseDurationSeconds: true
+                }]
+                Succeed: []
+            }]
+        }]
+
+        OnAlly: [ContextActionApplyBuff {
+            Buff: CodexGraphicDescription_Boon
+            DurationSeconds: 30
+            UseDurationSeconds: true
+        }]
+    }
+}
+
+blueprint CorrodedArmorBuff extends BlueprintBuff {
+    DisplayName: "Corroded Armor"
+    Description: "Some pretty toxic remarks have applied a -2 penalty to AC"
+    add AddStatBonus {
+        Stat: AC
+        Descriptor: Penalty
+        Value: -2
+    }
+}
+
+blueprint CodexCorrosiveRemarks extends BlueprintAbility {
+    DisplayName: "Corrosive Remarks"
+    Description: 
+    "Normal: Your words melt skin, denature sinew, and turn bone to mush.\n\n"
+
+    "Your target’s body begins to liquefy. The subject takes 6d6 points of acid"
+    "damage and a -2 penalty to AC for 5 rounds. A successful Fortitude save halves"
+    "the damage and negates the AC penalty.\n\n"
+
+    "Though this effect is instantaneous, once this recitation is recited, it cannot"
+    "be recited again for 5 rounds in accordance with the Law of Flowing Rhetoric."
+
+
+    Icon: "icons/sonic-shout.png"
+
+    insert CodexStandardAbility
+    insert CodexEnemyOnly
+
+    feature requires class Truenamer 7
+
+    derive BlueprintBuff Rhetoric {
+        DisplayName: "The Law of Flowing Rhetoric (Corrosive Remarks)"
+        insert RhetoricBuff
+    }
+
+    add AbilityCasterHasNoFacts {
+        Facts: CodexCorrosiveRemarks_Rhetoric
+    }
+
+    run RecitationCheck {
+        LawOfCroakingFailure: LawOfCroakingFailureBuff
+        LawOfFiniteMalleability: LawOfFiniteMalleability
+        LawOfFlowingRhetoric: CodexCorrosiveRemarks_Rhetoric
+
+        OnEnemy: [ContextActionSavingThrow {
+            Type: Fortitude
+            Actions: [
+                ContextActionDealDamage {
+                    DamageType: "Energy/Acid"
+                    Value: 6d6
+                    HalfIfSaved: true
+                }
+                ContextActionConditionalSaved {
+                    Failed: [ContextActionApplyBuff{
+                        Buff: CorrodedArmorBuff
+                        DurationSeconds: 30
+                        UseDurationSeconds: true
+                    }]
+                }
+            ]
+        }]
+    }
+}
+
+blueprint CodexPiercingProclamation extends BlueprintAbility {
+    DisplayName: "Piercing Proclamation"
+    Description: 
+    "Normal: Raising one’s voice in the First Language is significantly more deadly than in most other languages."
+
+    "A blast of sound strikes the subject, dealing 1d8 points of sonic damage."
+
+    "Though this effect is instantaneous, once this recitation is recited, it"
+    "cannot be recited again for 5 rounds in accordance with the Law of Flowing"
+    "Rhetoric."
+
+    "Reverse: By the same token, the First Language can be used to help others"
+    "raise their voices."
+
+    "A strange humming sound emanates from the throat of the subject, allowing it"
+    "to speak in a high-pitched, airy voice even if it could not physically do"
+    "so. Any magical silence effects preventing the subject from speaking"
+    "normally also prevent the subject from speaking with the aid of this"
+    "recitation."
+
+    Icon: "icons/sonic-shout.png"
+
+    insert CodexStandardAbility
+    insert CodexEnemyOnly
+
+    feature requires class Truenamer 1
+
+    derive BlueprintBuff Rhetoric {
+        DisplayName: "The Law of Flowing Rhetoric (Piercing Proclamation)"
+        insert RhetoricBuff
+    }
+
+    add AbilityCasterHasNoFacts {
+        Facts: CodexPiercingProclamation_Rhetoric
+    }
+
+    run RecitationCheck {
+        LawOfCroakingFailure: LawOfCroakingFailureBuff
+        LawOfFiniteMalleability: LawOfFiniteMalleability
+        LawOfFlowingRhetoric: CodexPiercingProclamation_Rhetoric
+
+        OnEnemy: [ContextActionDealDamage {
+            DamageType: "Energy/Sonic"
+            Value: 1d8
+        }]
+    }
+}
+
+blueprint CodexLeechBondLesser extends BlueprintAbility {
+    DisplayName: "Leechbond, Lesser"
+    Description: 
+    "When a truenamer shouts, “Your life is mine!”, there is reason for concern."
+    "When he does so in the First Language, assuming you can understand him, it’s"
+    "time to panick.\n\n"
+
+    "You imbue the affected shirt with a draining, leech-like presence. The wearer"
+    "of the shirt takes 1d4 points of damage at the beginning of its turn, and you"
+    "gain that many temporary hit points. These temporary hit points last for 1"
+    "minute."
+
+    derive BlueprintBuff TmepHp {
+        DisplayName: "Leechbond, Lesser"
+        Description: "Leechbond, Lesser"
+
+        Stacking: Replace
+
+        add TemporaryHitPointsFromAbilityValue {
+            Value: "Shared/Damage"
+            RemoveWhenHitPointsEnd: true
+        }
+    }
+
+    derive BlueprintBuff Buff {
+        DisplayName: "Leechbond, Lesser"
+        Description: "Leechbond, Lesser"
+
+        add AddFactContextActions {
+            NewRound: [
+                ContextActionDealDamage {
+                    Value: 1d4
+                    WriteResultToSharedValue: true
+                    DamageType: Untyped
+                }
+                ContextActionApplyBuff {
+                    ToCaster: true
+                    Buff: CodexLeechBondLesser_TmepHp
+                    DurationSeconds: 60
+                    UseDurationSeconds: true
+                }
+            ]
+        }
+
+        Icon: "fat.png"
+    }
+
+    run RecitationCheck {
+        LawOfCroakingFailure: LawOfCroakingFailureBuff
+        LawOfFiniteMalleability: LawOfFiniteMalleability
+        
+        OnEnemy: [ContextActionSavingThrow {
+            Type: Fortitude
+            Actions: [ContextActionConditionalSaved {
+                Failed: [ContextActionApplyBuff {
+                    Buff: CodexLeechBondLesser_Buff
+                    DurationSeconds: 30
+                    UseDurationSeconds: true
+                }]
+            }]
+        }]
+    }
+
+    insert CodexStandardAbility
+    insert CodexEnemyOnly
+
+    feature requires class Truenamer 4
+}
+
+blueprint CodexOfHeartAndMindSelection extends BlueprintFeatureSelection {
+    DisplayName: "Codex of Heart and Mind"
+    Description:
+    "The Codex of Heart and Mind concerns itself with living creatures. Though"
+    "life is a very complex phenomenon in the universe, the living tend to have"
+    "fairly static names in the First Language. The resulting ease of recitation"
+    "makes the Codex of Heart and Mind the source of the bulk of a truenamer’s"
+    "power."
+
+    AllFeatures: [
+        CodexGraphicDescription_Feature
+        CodexBolsteringChant_Feature
+        CodexPiercingProclamation_Feature
+        CodexAttraction_Feature
+        CodexCorrosiveRemarks_Feature
+    ]
+
+    HideInCharacterSheetAndLevelUp: true
+    HideInUI: true
+
+    Icon: "icons/heart_and_mind.png"
+}

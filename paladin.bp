@@ -1,0 +1,4 @@
+
+modify BlueprintCharacterClass-PaladinClass {
+    gains Fat at 1
+}

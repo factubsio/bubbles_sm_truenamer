@@ -1,0 +1,89 @@
+{
+ "name": "bubbles_sm_truenamer",
+ "blueprints": {
+  "Fat": {
+   "path": "test.bp",
+   "guid": "d298c701-1a08-413e-86d6-8af8c79eabbe"
+  },
+  "Bob": {
+   "path": "test.bp",
+   "guid": "93d6e842-8822-4c15-9be4-51ef5e958257"
+  },
+  "Bobble": {
+   "path": "test.bp",
+   "guid": "2c7f7be0-1107-42e4-84ac-4d56418245ad"
+  },
+  "BellySlam": {
+   "guid": "359e9a21-ae77-4c95-86e5-2ad39ce8c4ee"
+  },
+  "Truenamer": {
+   "guid": "e40402b2-7dd2-47c9-b847-785094ab8f33"
+  },
+  "TruenamerProgression": {
+   "guid": "aa277ca6-4366-45d5-8e07-b62b582203f6"
+  },
+  "CodexBolsteringChant": {
+   "guid": "48adb35f-749c-4c13-b3f0-32dedfc1d44b"
+  },
+  "CodexGraphicDescription": {
+   "guid": "b5e103bc-570d-4004-9d38-37ac82a5d436"
+  },
+  "CodexOfHeartAndMindSelection": {
+   "guid": "11b95e64-6a58-445d-9a26-ef1a390340a8"
+  },
+  "CodexGraphicDescriptionFeature": {
+   "guid": "f519a95b-8b9a-4f46-bcdd-f7ae64ebaa62"
+  },
+  "CodexPiercingProclamation": {
+   "guid": "652aa317-cafe-47e2-b0a4-c62a28473a51"
+  },
+  "LawOfCroakingFailureBuff": {
+   "guid": "48179afa-d45e-462f-8fcb-911090e62008"
+  },
+  "LawOfFiniteMalleability": {
+   "guid": "e82f640d-3bc0-4ca7-940f-aa4169f44fe5"
+  },
+  "CodexOfHeartAndMind": {
+   "guid": "e2111e92-3b2e-4c97-b5c7-33321654cf96"
+  },
+  "RecitationFeature": {
+   "guid": "b49b0fe1-16a0-4ff4-a7e1-54397f832d49"
+  },
+  "CodexOfArtifice": {
+   "guid": "c6157c90-df6e-43be-b8be-1b3b608de268"
+  },
+  "CodexOfFarFlungSpheres": {
+   "guid": "9dad4ab6-3578-4fee-a241-e8548b12c7ad"
+  },
+  "CodexOfTheRealizedVision": {
+   "guid": "cbf01955-bc23-425f-8aed-0841121051f5"
+  },
+  "InflectionsFeature": {
+   "guid": "9f04b0db-a285-4011-bb2e-0fee41230700"
+  },
+  "LinguisticFamiliarity": {
+   "guid": "b4716c92-7e5d-43e6-a895-39e96bfdfb82"
+  },
+  "OvertoneChanting": {
+   "guid": "70d6daee-7982-4441-8285-28f1f47b9daa"
+  },
+  "DemandOftheUniverse": {
+   "guid": "e8644b2e-7c90-4ce8-8435-dedbef526b2a"
+  },
+  "CodexAttraction": {
+   "guid": "40aed575-6405-47aa-8f32-153542a39468"
+  },
+  "CodexAttractionReverse": {
+   "guid": "82f80de6-8d10-434d-ad50-04388d8e34a5"
+  },
+  "CodexCorrosiveRemarks": {
+   "guid": "141ebffa-f6dc-4e89-b886-20b1e65585dc"
+  },
+  "CorrodedArmorBuff": {
+   "guid": "c6f62778-2c5e-485f-8077-14e7eacbe8d5"
+  },
+  "CodexLeechBondLesser": {
+   "guid": "92daff8c-6062-41d4-bd67-23a07a80b912"
+  }
+ }
+}

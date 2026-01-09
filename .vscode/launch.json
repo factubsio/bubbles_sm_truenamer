@@ -1,0 +1,74 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Truenamer (all abilities)",
+            "request": "launch",
+            "type": "bubble.debug.wrath",
+            "area": "RE_KareliaForest_Default_Preset",
+            "enemies": [
+                {
+                    "unit": "CR0.25_GiantCentipedeRanged_NoPoison",
+                    "count": 1
+                }
+            ],
+            "u": {
+                "hp": 50,
+                "str": 12,
+                "int": 20,
+                "con": 4,
+                "bonus": [
+                    {
+                        "stat": "SkillKnowledgeWorld",
+                        "value": 10,
+                    },
+                    {
+                        "stat": "Charisma",
+                        "value": 8,
+                    }
+                ],
+                "classes": [
+                    {
+                        "level": 1,
+                        "name": "e40402b2-7dd2-47c9-b847-785094ab8f33"
+                    }
+                ],
+                "features": [
+                    "48adb35f-749c-4c13-b3f0-32dedfc1d44b",
+                    "141ebffa-f6dc-4e89-b886-20b1e65585dc",
+                    "40aed575-6405-47aa-8f32-153542a39468",
+                    "82f80de6-8d10-434d-ad50-04388d8e34a5",
+                    "92daff8c-6062-41d4-bd67-23a07a80b912",
+                ]
+            }
+        },
+        {
+            "name": "Truenamer (try fail dc)",
+            "request": "launch",
+            "type": "bubble.debug.wrath",
+            "area": "main",
+            "u": {
+                "hp": 50,
+                "str": 12,
+                "int": 1,
+                "con": 4,
+                "classes": [
+                    {
+                        "level": 1,
+                        "name": "e40402b2-7dd2-47c9-b847-785094ab8f33"
+                    }
+                ],
+                "features": [
+                    "48adb35f-749c-4c13-b3f0-32dedfc1d44b",
+                    "141ebffa-f6dc-4e89-b886-20b1e65585dc",
+                    "40aed575-6405-47aa-8f32-153542a39468",
+                    "82f80de6-8d10-434d-ad50-04388d8e34a5",
+                    "92daff8c-6062-41d4-bd67-23a07a80b912",
+                ]
+            }
+        }
+    ]
+}

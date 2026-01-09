@@ -1,0 +1,369 @@
+blueprint Truenamer extends BlueprintCharacterClass {
+    LocalizedName: "Truenamer"
+
+    LocalizedDescription:
+    "A truenamer's source of power is his encyclopedic knowledge of the First Language also known as Truespeech."
+    "Containing all things and concepts that have and will ever be,"
+    "perfect knowledge of Truespeech would effectively mean perfect control over the universe itself."
+    "Though it is quite impossible for the limited mind of a mortal humanoid to fathom the entirety of the First Language,"
+    "there are those who devote their lives to learning even the tiniest fragment of what it has to offer and are capable"
+    "of shifting the universe by reciting dozens of words and phrases on a daily basis."
+    "A truenamer exercises his power over Truespeech through the use of recitations."
+    "Recitations resemble spells and represent knowledge of hundreds of variations of a core concept within"
+    "the Language.\n\n"
+
+    "Through precise knowledge of his surroundings and the vocabulary used to describe the"
+    "current state of the local area, a truenamer knows how to recite the precise grammatical variant required to"
+    "elicit an effect in a particular situation. It is this, the fact that the recitations for orc, charging orc,"
+    "and charging orc with a mohawk are all totally different series of syllables, that makes learning even a tiny"
+    "fraction of the First Language a lifelong pursuit for even the most dedicated of scholars.\n\n"
+
+    "Recitations are broken up into four codices based on the nature of the subject of the recitation."
+    "For example, one codex is all about “things”, while another is about “ideas”. Codices are effectively"
+    "repositories of nouns being modifie by static verbs."
+
+    SkillPoints: 2
+    HitDie: D6
+    BaseAttackBonus: BlueprintStatProgression-BABFull
+    FortitudeSave: BlueprintStatProgression-SavesLow
+    ReflexSave: BlueprintStatProgression-SavesLow
+    WillSave: BlueprintStatProgression-SavesHigh
+
+    ClassSkills: [
+        SkillKnowledgeArcana
+        SkillKnowledgeWorld
+        SkillPerception
+    ]
+
+    RecommendedAttributes: Intelligence
+
+    NotRecommendedAttributes: Charisma
+
+    IsArcaneCaster: true
+}
+template CodexStandardAbility extends BlueprintAbility {
+    Range: Medium
+    Type: SpellLike
+    ShouldTurnToTarget: true
+    EffectOnEnemy: Harmful
+    EffectOnAlly: Helpful
+    AnimationStyle: CastActionOmni
+}
+
+template CodexReversible extends BlueprintAbility {
+    CanTargetEnemies: true
+    CanTargetFriends: true
+    CanTargetSelf: true
+}
+
+template CodexEnemyOnly extends BlueprintAbility {
+    CanTargetEnemies: true
+    CanTargetFriends: false
+    CanTargetSelf: false
+}
+
+template CodexAllyOnly extends BlueprintAbility {
+    CanTargetEnemies: false
+    CanTargetFriends: true
+    CanTargetSelf: true
+}
+
+# This isn't really required but it is nice so we can show the fact for DC calculations
+# ... except of course wrath doesn't allow that without some custom UI?
+blueprint LawOfFiniteMalleability extends BlueprintFeature {
+    DisplayName: "The Law of Finite Malleability"
+    Description: 
+    "The Law of Finite Malleability is a measure of the patience of the universe."
+    "As a truenamer runs around demanding the same thing of the universe over and"
+    "over, it tends to get a bit fed up with him. Each time the truenamer"
+    "successfully recites a recitation, the truenaming DC of that recitation"
+    "increases by +2. The truenamer may spend an hour apologizing to the universe"
+    "each morning, much like how typical spellcasters study their spellbooks, in"
+    "order to reset the Law of Finite Malleability to its starting state, +0."
+
+    IsClassFeature: true
+    Icon: "icons/malleability.png"
+}
+
+blueprint RecitationFeature extends BlueprintFeature {
+    DisplayName: "Recitations"
+    Description:
+    "A truenamer can recite a recitation as a standard action that provokes attacks"
+    "of opportunity. In order for his recitation to be successful, he must succeed on"
+    "a DC 7 + 3 x the recitation’s recitation level truenaming check. (See Table:"
+    "Truenaming DCs by Recitation Level) To make a truenaming check, roll 1d20 + the"
+    "truenamer’s class level + the truenamer’s Intelligence modifier. On a failed"
+    "truenaming check, the recitation is not recited, the truenamer’s action is"
+    "wasted, and he incurs the penalties described by the Law of Croaking Failure.\n\n"
+
+    "A truenamer can choose to recite “on the defensive”. When reciting on the"
+    "defensive, the truenamer does not provoke an attack of opportunity, but the"
+    "truenaming DC is increased by +5 to reflect the enhanced difficulty of the task."
+    "(See Table: Truenaming DCs by Recitation Level) On a failed truenaming check,"
+    "the recitation is not recited, the truenamer’s action is wasted, he incurs the"
+    "penalties described by the Law of Croaking Failure, and he provokes an attack of"
+    "opportunity.\n\n"
+
+    "All truenamer recitations have verbal components. To learn or recite a"
+    "recitation, a truenamer must have an Intelligence score equal to at least 10 +"
+    "the recitation level. The Difficulty Class (DC) for a saving throw against a"
+    "truenamer’s recitation is 10 + the recitation level + the truenamer’s"
+    "Intelligence modifier.\n\n"
+
+    "All recitations have a recitation level, which represents just how accomplished"
+    "a truenamer must be to have the vocabulary to use it in the first place. A"
+    "truenamer begins play able to recite 1st-level recitations. At 4th level, a"
+    "truenamer can recite 2nd-level recitations. For every three truenamer levels"
+    "beyond 4th, the highest recitation level he can recite increases by +1, to a"
+    "maximum of 6th-level recitations at 16th level.\n\n"
+
+    "Each recitation has a “similar school” listing. Any spell of that school whose"
+    "spell level is greater than or equal to the recitation level of the attempted"
+    "recitation can be used to counterspell that recitation. This can be particularly"
+    "devastating for the truenamer, as counterspelling triggers The Law of Flowing"
+    "Rhetoric.\n\n"
+
+    "Treat the truenamer’s class level as his caster level for the purpose of dispel"
+    "magic and other such effects. Similarly, spells, feats, and abilities that"
+    "interact with the school of magic listed in a recitation’s similar school"
+    "listing affect that recitation as though it were a spell. For example, a"
+    "truenamer can take the Spell Focus (evocation) feat and have it apply to all of"
+    "his recitations that have evocation listed as the similar school.\n\n"
+
+    "If a spell or ability affecting the truenamer increases concentration DCs, then"
+    "his truenaming DCs increase by half that amount, rounded down. Further, spells"
+    "and abilities that trigger when a spell is cast, such as the Spellbreaker feat,"
+    "trigger when a recitation is recited. When dealt damage before a recitation is"
+    "completed, the truenaming DC increases by the amount of damage taken. A"
+    "truenamer’s recitations have a 20% failure chance when he is deafened, but other"
+    "situations that require concentration checks of standard spellcasters do not"
+    "affect a truenamer.\n\n"
+
+    "Upon reaching 7th level, and at every third truenamer level after that (10th,"
+    "13th, and so on), a truenamer can choose to learn a new recitation in place of"
+    "one he already knows from the same codex. In effect, the truenamer “loses” the"
+    "old recitation in exchange for the new one. The new recitation’s level must be"
+    "the same as that of the recitation being exchanged, and it must be at least one"
+    "level lower than the highest-level recitation the truenamer can recite. A"
+    "truenamer may swap only a single recitation at any given level, and must choose"
+    "whether or not to swap the recitation at the same time that he gains new"
+    "recitations known for the level. Recitations follow four universal laws."
+
+    IsClassFeature: true
+
+    add AddFacts {
+        Facts: [
+            LawOfFiniteMalleability
+        ]
+    }
+}
+
+blueprint LinguisticFamiliarity extends BlueprintFeature {
+    DisplayName: "Linguistic Familiarity"
+    Description: 
+    "Starting at 5th level, a truenamer’s mastery of language makes him resistant"
+    "to abilities that rely upon it. He gets +1 to saving throws made against"
+    "language-dependent spells and abilities.\n\n"
+
+    "This bonus increases to +2 at 11th level and +3 at 17th level."
+
+    IsClassFeature: true
+    Ranks: 3
+}
+
+blueprint OvertoneChanting extends BlueprintFeature {
+    DisplayName: "Overtone Chanting"
+    Description: 
+    "At 12th level, a truenamer has mastered the art of overtone chanting as it"
+    "pertains to performing his recitations in the First Language. He may now"
+    "apply up to two inflections to a single recitation and gain the benefits of"
+    "both. When doing so, add together the Truenaming DC Modifiers of the two"
+    "inflections and apply the sum to the recitation, then add together the"
+    "Malleability DC Modifiers of the two inflections, add a further +2 to the"
+    "summed the Malleability DC Modifier, and apply the sum to the recitation."
+
+    IsClassFeature: true
+}
+
+blueprint DemandOftheUniverse extends BlueprintFeature {
+    DisplayName: "Demand of the Universe"
+    Description:
+    "At 20th level, a truenamer has learned enough of the First Language to force"
+    "the universe to do what he says without having to muck about with all of"
+    "this precise inflection nonsense, at least some of the time. Once per day"
+    "for each of his codices, the truenamer can take 20 on a truenaming check. In"
+    "other words, the truenamer gets up to four separate uses of this ability:"
+    "once for the Codex of Heart and Mind, once for the Codex of Artifice, once"
+    "for the Codex of Far-flung Spheres, and once for the Codex of the Realized"
+    "Vision."
+
+    IsClassFeature: true
+
+}
+
+blueprint InflectionsFeature extends BlueprintFeature {
+    DisplayName: "Inflections"
+
+    Description: 
+    "Starting at 3rd level, a truenamer gains the ability to stress the syllables"
+    "of a recitation in a specific manner. This is known as inflecting. Doing so"
+    "increases the recital time of the recitation to a full-round action that"
+    "provokes attacks of opportunity, but adds an effect to that recitation"
+    "depending on the inflection used. A truenamer may only apply a single"
+    "inflection to any individual recitation.\n\n"
+
+    "Select an inflection from the list below. At 6th level and every three"
+    "levels thereafter, the truenamer selects an additional inflection from this"
+    "list.\n\n"
+
+    "Not all inflections are created equal. Some inflections are simply harder"
+    "for a truenamer to perform than others, if only because of the particular"
+    "way the vocal cords must be used. Each inflection has a line labeled"
+    "“Truenaming DC Modifier”, which states the amount by which the truenaming DC"
+    "of a recitation increases when that inflection is applied.\n\n"
+
+    "Most inflections are frowned upon by the universe itself, if only because"
+    "the universe gets annoyed when somebody demands something that specific of"
+    "it. Each inflection has a line labeled “Malleability DC Modifier”. This"
+    "value is applied to the Law of Finite Malleability. For example, as the DC"
+    "of a recitation normally increases by +2 every time it is successfully"
+    "recited, an inflection with a Malleability DC Modifier of +2 would make the"
+    "DC of the recitation increase by a total of +4 (2 + 2) after being"
+    "successfully recited."
+
+    IsClassFeature: true
+}
+
+blueprint CodexOfHeartAndMind extends BlueprintFeature {
+    DisplayName: "Codex of Heart and Mind"
+    Description: 
+    "The first codex from which a truemage learns to recite, the Codex of Heart"
+    "and Mind makes up the bulk of any truemage’s vocabulary. Concerning itself"
+    "with living things, the Codex of Heart and Mind is the easiest of all"
+    "codices for the average truemage to understand because the average truemage"
+    "understands what it means to be alive. Of course, the definition the"
+    "universe uses for life is far more liberal than what we use, thus making the"
+    "codex encompass everything from humans and elves to elementals and undead.\n\n"
+
+    "The Codex of Heart and Mind features reversible recitations. That is to say,"
+    "whenever a practitioner of truename magic recites a recitation from this"
+    "codex, he gets to choose to produce one of two effects. All targets affected"
+    "by the recitation are subject to the chosen effect. Both the normal and"
+    "reverse variants of a recitation count as the same recitation for the"
+    "purpose of the Law of Finite Malleability. If the spell descriptors,"
+    "duration, saving throw, or similar school of the normal and reverse variants"
+    "of a recitation differ in any way, then that line in a recitation’s"
+    "description will clearly show the difference between the two variants."
+
+    IsClassFeature: true
+    Icon: "icons/heart_and_mind.png"
+}
+blueprint CodexOfArtifice extends BlueprintFeature {
+    DisplayName: "Codex of Artifice"
+    Description: 
+    "Though most of the component truewords that make up the Codex of Artifice are"
+    "themselves more simple than those found in the Codex of Heart and Mind,"
+    "fledgling truenamers have an excessively difficult time understanding how to use"
+    "these truewords. This is because in order to get word choice, tonality, and"
+    "inflection correct, a truenamer must be able to think like a thing, not like a"
+    "person. Though things are usually without intelligence, there are certain"
+    "properties that feature very strongly in their definitions and, therefore, in"
+    "the truewords used to command their alteration and manipulation. Once this"
+    "barrier is breached and the truenamer has acquired an eye for that which is"
+    "important, he is poised to make rapid gains in the Codex of Artifice.\n\n"
+
+    "Like the Codex of Heart and Mind, the Codex of Artifice features reversible"
+    "recitations. That is to say, whenever a truenamer recites a recitation from this"
+    "codex, he gets to choose to produce one of two effects. All targets affected by"
+    "the recitation are subject to the chosen effect. Both the normal and reverse"
+    "variants of a recitation count as the same recitation for the purpose of the Law"
+    "of Finite Malleability. If the spell descriptors, duration, saving throw, or"
+    "similar school of the normal and reverse variants of a recitation differ in any"
+    "way, then that line in a recitation’s description will clearly show the"
+    "difference between the two variants."
+
+    IsClassFeature: true
+}
+blueprint CodexOfFarFlungSpheres extends BlueprintFeature {
+    DisplayName: "Codex of Far-Flung Spheres"
+    Description: 
+    "As the First Language encompasses all that will ever be in the universe, all"
+    "a practitioner of truemagic must do is learn what the proper words are to"
+    "make any condition manifest itself wherever he chooses. Mountains become"
+    "prairies. Marshes become lightning-blasted hellscapes. Limited telepathy is"
+    "enjoyed by all. The possibilities really are quite endless. The only"
+    "limiting factor is the research. The Codex of Far-Flung Spheres is an"
+    "interesting anthology of research into the nature of this world, as well as"
+    "the great unknown. Though rogue truenamers have devised recitations that"
+    "they are not sharing with the general community, this codex is still the"
+    "definitive source for location transformation.\n\n"
+
+    "This codex tends to be learned only late in a truenamer’s career for two"
+    "reasons. First, a priori knowledge of the truenaming of people and things helps"
+    "a great deal when one realizes that a place is defined by the people who use it"
+    "and the things that exist within it. Second, as some places are vastly different"
+    "from what a truenamer has seen himself, the ability to think like something else"
+    "as trained by the Codex of Artifice makes the logical leap of entry much less"
+    "than it would otherwise be."
+
+    IsClassFeature: true
+}
+
+blueprint CodexOfTheRealizedVision extends BlueprintFeature {
+    DisplayName: "Codex of The Realized Vision"
+    Description: 
+    "The Codex of the Realized Vision concerns itself with ideas. Though many"
+    "ideas are merely the collected memories of various sensations, the idea of a"
+    "rope, the idea of beer, and so on, some ideas are more abstract, such as the"
+    "concept of morality. Though it should be perfectly possible for the Codex of"
+    "the Realized Vision to usurp the portfolios of all of the other codices"
+    "simply by recalling that which the other codices produce, it just so happens"
+    "that describing an idea to the universe in order to get it to make it for"
+    "you is among the most heinously complicated procedures in the First"
+    "Language. Given this, very little research is done on the Codex of the"
+    "Realized Vision. Those who do research it are at the very top of their craft"
+    "and tend to have a superiority complex? the rest of the best work on the"
+    "other codices instead because their work will actually get used."
+
+    IsClassFeature: true
+}
+
+# Shared for all recitation abilities
+blueprint LawOfCroakingFailureBuff extends BlueprintBuff {
+    DisplayName: "The Law of Croaking Failure"
+    Description: 
+    "The Law of Croaking Failure is the backlash of the universe upon those who"
+    "draw its attention, then fail to clearly state what it is they want."
+    "Whenever the reciter fails a truenaming check, he takes a penalty to"
+    "truenaming checks equal to the recitation level of the recitation failed for"
+    "5 rounds. This penalty does not stack. While afflicted in this manner, the"
+    "reciter cannot speak above a whisper."
+
+    IsClassFeature: true
+    Stacking: Replace
+    Icon: "icons/frog.png"
+}
+
+modify Truenamer {
+    gains RecitationFeature at 1
+
+    gains BlueprintFeature-SimpleWeaponProficiency at 1
+
+    gains CodexOfHeartAndMindSelection at 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
+
+    gains InflectionsFeature at 3
+
+    gains CodexOfHeartAndMind at 1
+    gains CodexOfArtifice at 4
+    gains CodexOfFarFlungSpheres at 7
+    gains CodexOfTheRealizedVision at 10
+
+    gains LinguisticFamiliarity at 5, 11, 17
+
+    gains OvertoneChanting at 12
+
+    gains DemandOftheUniverse at 20
+
+    # for testing!
+    # gains CodexOfHeartAndMindSelection at 1,1,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
+}

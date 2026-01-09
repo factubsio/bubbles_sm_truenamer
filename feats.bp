@@ -1,0 +1,38 @@
+blueprint Fat extends BlueprintFeature {
+    DisplayName: "Fat"
+    Description: "He's always liked a fry-up"
+    DescriptionShort: "He's always liked a fry-up"
+    IsClassFeature: true
+    Icon: "fat.png"
+
+    add AddStatBonus {
+        Stat: Constitution
+        Descriptor: Alchemical
+        Value: 4
+    }
+
+    add AddFacts {
+        Facts: [BellySlam]
+    }
+}
+
+blueprint BellySlam extends BlueprintAbility {
+    DisplayName: "Belly Slam"
+    Description: "Slam your blessed belly into the opponent for 1d6 divine damage"
+
+    run ContextActionDealDamage {
+        DamageType: "Energy/Divine"
+        HalfIfSaved: true
+        Value: 1d6
+    }
+
+    Range: Touch
+    Type: Physical
+    CanTargetEnemies: true
+    CanTargetFriends: false
+    CanTargetSelf: false
+    ShouldTurnToTarget: true
+    EffectOnEnemy: Harmful
+    EffectOnAlly: None
+    AnimationStyle: CastActionOmni
+}
